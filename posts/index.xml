@@ -16,13 +16,5 @@
       <description>The Puzzle Take a look at the following code.
 #include &amp;lt;iostream&amp;gt; #include &amp;lt;string&amp;gt; int main() { int number_integer = -1; std::string number_string = &amp;#34;11&amp;#34;; number_integer = std::stoi(number_string); std::cout &amp;lt;&amp;lt; &amp;#34;The number is &amp;#34; &amp;lt;&amp;lt; number_integer; number_string = &amp;#34;ll&amp;#34; ; number_integer = std::stoi(number_string); std::cout &amp;lt;&amp;lt; &amp;#34;The has changed to &amp;#34; &amp;lt;&amp;lt; number_integer; } Here is appears as if number_string is assigned a valid value, &amp;quot;11&amp;quot;, upon it&amp;rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after.</description>
     </item>
-    <item>
-      <title>My First Post</title>
-      <link>https://GeorgeAllen.net/posts/my-first-post/</link>
-      <pubDate>Sat, 16 Dec 2023 14:52:38 -0800</pubDate>
-      <guid>https://GeorgeAllen.net/posts/my-first-post/</guid>
-      <description>Introduction This is Bold
-Visit the Hugo website!</description>
-    </item>
   </channel>
 </rss>

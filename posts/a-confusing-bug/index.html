@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>A Confusing Bug | George Kent Allen</title>
+<meta name="keywords" content="">
+<meta name="description" content="The Puzzle Take a look at the following code.
+#include &lt;iostream&gt; #include &lt;string&gt; int main() { int number_integer = -1; std::string number_string = &#34;11&#34;; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The number is &#34; &lt;&lt; number_integer; number_string = &#34;ll&#34; ; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The has changed to &#34; &lt;&lt; number_integer; } Here is appears as if number_string is assigned a valid value, &quot;11&quot;, upon it&rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after.">
+<meta name="author" content="">
+<link rel="canonical" href="https://GeorgeAllen.net/posts/a-confusing-bug/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.e087fd1dc76e73a35ae6d7028ddc1ba41e0131e7f9b3a6e2d019a208e6d6c4b5.css" integrity="sha256-4If9Hcduc6Na5tcCjdwbpB4BMef5s6bi0BmiCObWxLU=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.f413e19d0714851f6474e7ee9632408e58ac146fbdbe62747134bea2fa3415e0.js" integrity="sha256-9BPhnQcUhR9kdOfuljJAjlisFG&#43;9vmJ0cTS&#43;ovo0FeA="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://GeorgeAllen.net/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://GeorgeAllen.net/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://GeorgeAllen.net/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://GeorgeAllen.net/apple-touch-icon.png">
+<link rel="mask-icon" href="https://GeorgeAllen.net/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="A Confusing Bug" />
+<meta property="og:description" content="The Puzzle Take a look at the following code.
+#include &lt;iostream&gt; #include &lt;string&gt; int main() { int number_integer = -1; std::string number_string = &#34;11&#34;; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The number is &#34; &lt;&lt; number_integer; number_string = &#34;ll&#34; ; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The has changed to &#34; &lt;&lt; number_integer; } Here is appears as if number_string is assigned a valid value, &quot;11&quot;, upon it&rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://GeorgeAllen.net/posts/a-confusing-bug/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2023-12-18T18:15:18-08:00" />
+<meta property="article:modified_time" content="2023-12-18T18:15:18-08:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="A Confusing Bug"/>
+<meta name="twitter:description" content="The Puzzle Take a look at the following code.
+#include &lt;iostream&gt; #include &lt;string&gt; int main() { int number_integer = -1; std::string number_string = &#34;11&#34;; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The number is &#34; &lt;&lt; number_integer; number_string = &#34;ll&#34; ; number_integer = std::stoi(number_string); std::cout &lt;&lt; &#34;The has changed to &#34; &lt;&lt; number_integer; } Here is appears as if number_string is assigned a valid value, &quot;11&quot;, upon it&rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://GeorgeAllen.net/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "A Confusing Bug",
+      "item": "https://GeorgeAllen.net/posts/a-confusing-bug/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "A Confusing Bug",
+  "name": "A Confusing Bug",
+  "description": "The Puzzle Take a look at the following code.\n#include \u0026lt;iostream\u0026gt; #include \u0026lt;string\u0026gt; int main() { int number_integer = -1; std::string number_string = \u0026#34;11\u0026#34;; number_integer = std::stoi(number_string); std::cout \u0026lt;\u0026lt; \u0026#34;The number is \u0026#34; \u0026lt;\u0026lt; number_integer; number_string = \u0026#34;ll\u0026#34; ; number_integer = std::stoi(number_string); std::cout \u0026lt;\u0026lt; \u0026#34;The has changed to \u0026#34; \u0026lt;\u0026lt; number_integer; } Here is appears as if number_string is assigned a valid value, \u0026quot;11\u0026quot;, upon it\u0026rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after.",
+  "keywords": [
+    
+  ],
+  "articleBody": "The Puzzle Take a look at the following code.\n#include #include int main() { int number_integer = -1; std::string number_string = \"11\"; number_integer = std::stoi(number_string); std::cout \u003c\u003c \"The number is \" \u003c\u003c number_integer; number_string = \"ll\" ; number_integer = std::stoi(number_string); std::cout \u003c\u003c \"The has changed to \" \u003c\u003c number_integer; } Here is appears as if number_string is assigned a valid value, \"11\", upon it’s initialization, so that it can be converted to an integer by the call to std::stoi just a line after. But consider the output to this code on my machine. It’s as if a string with a value \"11\" can’t be converted to an integer. It obviously is a valid string value, std::stoi just converts strings to integers, so what is going on?\nThe Explanation Notice what happens if I properly output to the terminal by putting std::endl to the left of the \u003c\u003c operator.\n#include #include int main() { int number_integer = -1; std::string number_string = \"11\"; number_integer = std::stoi(number_string); std::cout \u003c\u003c \"The number is \" \u003c\u003c number_integer \u003c\u003c std::endl; number_string = \"ll\" ; number_integer = std::stoi(number_string); std::cout \u003c\u003c \"The has changed to \" \u003c\u003c number_integer \u003c\u003c std::endl; } Now when we run it, we get what we expected.\nNow, in line with our initial expectations, \"11\" is properly converted and displayed. When the exception was thrown by std::stoi, not by the first but by the second call, the system started writing at beginning of the line where we had already written the initial output.\n",
+  "wordCount" : "253",
+  "inLanguage": "en",
+  "datePublished": "2023-12-18T18:15:18-08:00",
+  "dateModified": "2023-12-18T18:15:18-08:00",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://GeorgeAllen.net/posts/a-confusing-bug/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "George Kent Allen",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://GeorgeAllen.net/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://GeorgeAllen.net/" accesskey="h" title="George Kent Allen (Alt + H)">George Kent Allen</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title entry-hint-parent">
+      A Confusing Bug
+    </h1>
+    <div class="post-meta"><span title='2023-12-18 18:15:18 -0800 PST'>December 18, 2023</span>
+
+</div>
+  </header> 
+  <div class="post-content"><h1 id="the-puzzle">The Puzzle<a hidden class="anchor" aria-hidden="true" href="#the-puzzle">#</a></h1>
+<p>Take a look at the following code.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> number_integer <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>string number_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;11&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	number_integer <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>stoi(number_string);
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;The number is &#34;</span> <span style="color:#f92672">&lt;&lt;</span> number_integer;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	number_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ll&#34;</span> ;
+</span></span><span style="display:flex;"><span>	number_integer <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>stoi(number_string);
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;The has changed to &#34;</span> <span style="color:#f92672">&lt;&lt;</span> number_integer;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Here is appears as if <code>number_string</code> is assigned a valid value, <code>&quot;11&quot;</code>, upon it&rsquo;s initialization, so that it can be converted to an integer by the call to <code>std::stoi</code> just a line after. But consider the output to this code on my machine.
+<img loading="lazy" src="/a-confusing-bug/b.png" alt="output_one"  />
+</p>
+<p>It&rsquo;s as if a string with a value <code>&quot;11&quot;</code> can&rsquo;t be converted to an integer. It obviously is a valid string value, <code>std::stoi</code> just converts strings to integers, so what is going on?</p>
+<h1 id="the-explanation">The Explanation<a hidden class="anchor" aria-hidden="true" href="#the-explanation">#</a></h1>
+<p>Notice what happens if I <em>properly</em> output to the terminal by putting <code>std::endl</code> to the left of the <code>&lt;&lt;</code> operator.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;string&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> number_integer <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>string number_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;11&#34;</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	number_integer <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>stoi(number_string);
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;The number is &#34;</span> <span style="color:#f92672">&lt;&lt;</span> number_integer <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	number_string <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;ll&#34;</span> ;
+</span></span><span style="display:flex;"><span>	number_integer <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>stoi(number_string);
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;The has changed to &#34;</span> <span style="color:#f92672">&lt;&lt;</span> number_integer <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Now when we run it, we get what we expected.</p>
+<p><img loading="lazy" src="/a-confusing-bug/a.png" alt="output_one"  />
+</p>
+<p>Now, in line with our initial expectations,  <code>&quot;11&quot;</code> is properly converted and displayed.  When the exception was thrown by <code>std::stoi</code>, <em><strong>not</strong></em> by the <em><strong>first</strong></em> but by the <em><strong>second</strong></em> call, the system started writing at beginning of the line where we had already written the initial output.</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2023 <a href="https://GeorgeAllen.net/">George Kent Allen</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>

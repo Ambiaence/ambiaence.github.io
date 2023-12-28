@@ -9,10 +9,10 @@
     <lastBuildDate>Mon, 18 Dec 2023 18:15:18 -0800</lastBuildDate>
     <atom:link href="https://GeorgeAllen.net/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Small bugs are hard to see.</title>
-      <link>https://GeorgeAllen.net/posts/a-confusing-bug/</link>
+      <title>Small Bugs Are Hard to See.</title>
+      <link>https://GeorgeAllen.net/posts/small-bugs-are-hard-to-see/</link>
       <pubDate>Mon, 18 Dec 2023 18:15:18 -0800</pubDate>
-      <guid>https://GeorgeAllen.net/posts/a-confusing-bug/</guid>
+      <guid>https://GeorgeAllen.net/posts/small-bugs-are-hard-to-see/</guid>
       <description>The Puzzle Take a look at the following code.
 #include &amp;lt;iostream&amp;gt; #include &amp;lt;string&amp;gt; int main() { int number_integer = -1; std::string number_string = &amp;#34;11&amp;#34;; number_integer = std::stoi(number_string); std::cout &amp;lt;&amp;lt; &amp;#34;The number is &amp;#34; &amp;lt;&amp;lt; number_integer; number_string = &amp;#34;ll&amp;#34; ; number_integer = std::stoi(number_string); std::cout &amp;lt;&amp;lt; &amp;#34;The has changed to &amp;#34; &amp;lt;&amp;lt; number_integer; } Here it appears as if number_string is assigned a valid value, &amp;quot;11&amp;quot;, upon it&amp;rsquo;s initialization, so that it can be converted to an integer by the call to std::stoi just a line after.</description>
     </item>
